@@ -43,9 +43,19 @@
         </li>
       </ul>
 
-      <form class="nav-item">
-          <a class="nav-link" style="color:White" href="{% url 'signup' %}"  aria-disabled="true">Login</a>
-      </form>
+        {% if user.is_authenticated %}
+         <form class="nav-item" action="{% url 'logout' %}" method="POST">
+          {% csrf_token %}
+         <button type="submit" class="btn btn-link" style="color: white">Logout</button>
+         </form>
+        {% else %}
+        <form class="nav-item">
+          <a class="nav-link" style="color:White" href="{% url 'login' %}"  aria-disabled="true">Login</a>
+        </form>
+          <form>
+              <a class="nav-link" style="color:White" href="{% url 'signup' %}"  aria-disabled="true">Signup</a>
+          </form>
+        {% endif %}
     </div>
   </nav>
 </header>
