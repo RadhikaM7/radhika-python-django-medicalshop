@@ -1,1 +1,46 @@
 {% extends 'welcome.html' %}
+{% load static %}
+ {% block content %}
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>SMA - Medicine</title>
+    <link rel="stylesheet" href="/static/medicine/css/medicine.css?{% now "U" %}"/>
+
+
+</head>
+<body>
+    <br>
+     <div class="row">
+       {% for medicine in medicines %}
+        <div class="card">
+       <!--Here we are passing the batchnumber as an unique identifier which will help us to open the detail
+        about specific medicine.
+        Process - We pass batchNumber as a parameter to the url, in urls.py we add this parameter and pass it
+        to our view. Our view will then query the specific object based on the key we passed and render
+        a page-->
+           <a href="{% url 'detail' medicine.batchNumber %}"><img src="{{ medicine.image.url}}" alt="medicine" style="width:300px; height: 100px"></a>
+            <a href="{% url 'detail' medicine.batchNumber %}"><h2>{{ medicine.name }}</h2></a>
+       <p>Company: {{ medicine.company }}</p>
+       <p class="price">Rs.{{ medicine.price }}</p>
+       <p><button>Add to Cart</button></p>
+       <h6><a href="#">View Description</a></h6>
+       <h6><a href="#">Add to Wishlist</a></h6>
+</div>
+
+    {# if the the forloop counter is divisible by 4, close the <li> tag and open a new one #}
+    {% if forloop.counter|divisibleby:4 and not forloop.last %}
+        </div>
+        </br>
+        <div class="row">
+    {% endif %}
+
+    {% endfor %}
+   </div>
+
+{% endblock %}
+</body>
+</html>
